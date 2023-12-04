@@ -1,5 +1,9 @@
 import { useGetTodosQuery } from "@/hooks/query";
-import { useCreateTodoMutation, useUpdateTodoMutation } from "@/hooks/mutate";
+import {
+  useCreateTodoMutation,
+  useDeleteTodoMutation,
+  useUpdateTodoMutation,
+} from "@/hooks/mutate";
 
 export const useGetTodos = () => {
   const { data, error, isLoading } = useGetTodosQuery();
@@ -29,4 +33,14 @@ export const useUpdateTodo = () => {
   }
 
   return { updateTodo };
+};
+
+export const useDeleteTodo = () => {
+  const { mutateAsync: deleteTodo, error } = useDeleteTodoMutation();
+
+  if (error) {
+    throw error;
+  }
+
+  return { deleteTodo };
 };

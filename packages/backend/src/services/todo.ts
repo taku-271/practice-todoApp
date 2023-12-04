@@ -17,3 +17,7 @@ export const updateTodo = async (todo: Todo) => {
     data: { ...todo },
   });
 };
+
+export const deleteTodo = async (id: number) => {
+  return await prisma.todo.delete({ where: { id } });
+};

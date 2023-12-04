@@ -1,10 +1,16 @@
-import { useCreateTodo, useGetTodos, useUpdateTodo } from "@/hooks/store";
+import {
+  useCreateTodo,
+  useDeleteTodo,
+  useGetTodos,
+  useUpdateTodo,
+} from "@/hooks/store";
 import { useEffect, useState } from "react";
 
 const Index = () => {
   const { todos, isGetTodosLoading } = useGetTodos();
   const { createTodo } = useCreateTodo();
   const { updateTodo } = useUpdateTodo();
+  const { deleteTodo } = useDeleteTodo();
   const [title, setTitle] = useState("");
 
   const onChangeTitle = (title: string) => {
@@ -23,6 +29,10 @@ const Index = () => {
     });
   };
 
+  const onDelete = (id: number) => {
+    deleteTodo(id);
+  };
+
   return (
     <div>
       <h1>Todos</h1>
@@ -38,6 +48,7 @@ const Index = () => {
               checked={todo.completed}
               onChange={(e) => onChangeCompleted(e.target.checked, todo)}
             />
+            <button onClick={() => onDelete(todo.id)}>削除</button>
           </div>
         ))
       )}
@@ -45,7 +56,7 @@ const Index = () => {
         <h2>Create Todo</h2>
         <form onSubmit={(e) => onSubmitTitle(e)}>
           <input type="text" onChange={(e) => onChangeTitle(e.target.value)} />
-          <button type="submit">Create Todo</button>
+          <button type="submit">新規作成</button>
         </form>
       </div>
     </div>

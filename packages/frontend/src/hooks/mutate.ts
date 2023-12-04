@@ -34,3 +34,17 @@ export const useUpdateTodoMutation = () => {
     },
   });
 };
+
+export const useDeleteTodoMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation<unknown, unknown, number>({
+    mutationKey: ["deleteTodo"],
+    onSuccess: () => {
+      queryClient.invalidateQueries(["getTodos"]);
+    },
+    mutationFn: async (id: number) => {
+      return await axios.delete(`http://localhost:3001/api/todo/delete/${id}`);
+    },
+  });
+};
