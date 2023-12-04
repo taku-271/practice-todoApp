@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 const Index = () => {
   const { todos, isGetTodosLoading } = useGetTodos();
   const { createTodo } = useCreateTodo();
-  // const { updateTodo } = useUpdateTodo();
+  const { updateTodo } = useUpdateTodo();
   const [title, setTitle] = useState("");
 
   const onChangeTitle = (title: string) => {
@@ -12,15 +12,16 @@ const Index = () => {
   };
 
   const onSubmitTitle = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     title ? createTodo({ title }) : alert("Title is required");
   };
 
-  // const onChangeCompleted = (isChecked: boolean, todo: Todo) => {
-  //   updateTodo({
-  //     ...todo,
-  //     completed: isChecked,
-  //   });
-  // };
+  const onChangeCompleted = (isChecked: boolean, todo: Todo) => {
+    updateTodo({
+      ...todo,
+      completed: isChecked,
+    });
+  };
 
   return (
     <div>
@@ -35,7 +36,7 @@ const Index = () => {
             <input
               type="checkbox"
               checked={todo.completed}
-              // onChange={(e) => onChangeCompleted(e.target.checked, todo)}
+              onChange={(e) => onChangeCompleted(e.target.checked, todo)}
             />
           </div>
         ))

@@ -1,9 +1,14 @@
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 
 export const useCreateTodoMutation = () => {
+  const queryClient = useQueryClient();
+
   return useMutation<unknown, unknown, CreateTodo>({
     mutationKey: ["createTodo"],
+    onSuccess: () => {
+      queryClient.invalidateQueries(["getTodos"]);
+    },
     mutationFn: async (newTodo) => {
       return await axios.post<Todo>(
         "http://localhost:3001/api/todo/create",
@@ -14,8 +19,13 @@ export const useCreateTodoMutation = () => {
 };
 
 export const useUpdateTodoMutation = () => {
+  const queryClient = useQueryClient();
+
   return useMutation<unknown, unknown, Todo>({
-    mutationKey: ["updateTodo"],
+    mutationKey: ["getTodos"],
+    onSuccess: () => {
+      queryClient.invalidateQueries(["getTodos"]);
+    },
     mutationFn: async (todo) => {
       return await axios.post<Todo>(
         `http://localhost:3001/api/todo/update`,
