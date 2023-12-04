@@ -4,6 +4,7 @@ import {
   useGetTodos,
   useUpdateTodo,
 } from "@/hooks/store";
+import { Box, Button, Checkbox, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 
 const Index = () => {
@@ -17,9 +18,9 @@ const Index = () => {
     setTitle(title);
   };
 
-  const onSubmitTitle = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const onSubmitTitle = () => {
     title ? createTodo({ title }) : alert("Title is required");
+    setTitle("");
   };
 
   const onChangeCompleted = (isChecked: boolean, todo: Todo) => {
@@ -34,32 +35,63 @@ const Index = () => {
   };
 
   return (
-    <div>
-      <h1>Todos</h1>
+    <Box sx={{ textAlign: "center" }}>
+      <h1>～やることリスト～</h1>
       {isGetTodosLoading ? (
         <p>Loading...</p>
       ) : (
         todos?.map((todo) => (
-          <div key={todo.id}>
-            <h2>{todo.title}</h2>
-            <p>{todo.completed ? "Completed" : "Not completed"}</p>
-            <input
-              type="checkbox"
+          <Box
+            key={todo.id}
+            sx={{
+              width: 200,
+              m: "0 auto",
+              p: 3,
+              mb: 2,
+              border: "1px solid #000",
+              textAlign: "center",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 5,
+              }}
+            >
+              <h2>{todo.title}</h2>
+              <p>{todo.completed ? "完了" : "未完了"}</p>
+            </Box>
+            <Checkbox
+              sx={{ mr: 5 }}
               checked={todo.completed}
               onChange={(e) => onChangeCompleted(e.target.checked, todo)}
             />
-            <button onClick={() => onDelete(todo.id)}>削除</button>
-          </div>
+            <Button
+              onClick={() => onDelete(todo.id)}
+              variant="contained"
+              color="error"
+            >
+              削除
+            </Button>
+          </Box>
         ))
       )}
-      <div>
-        <h2>Create Todo</h2>
-        <form onSubmit={(e) => onSubmitTitle(e)}>
-          <input type="text" onChange={(e) => onChangeTitle(e.target.value)} />
-          <button type="submit">新規作成</button>
-        </form>
-      </div>
-    </div>
+      <Box>
+        <h2>～新規作成～</h2>
+        <TextField
+          sx={{ mr: 2 }}
+          variant="outlined"
+          onChange={(e) => onChangeTitle(e.target.value)}
+          value={title}
+          size="small"
+        />
+        <Button variant="contained" onClick={onSubmitTitle}>
+          新規作成
+        </Button>
+      </Box>
+    </Box>
   );
 };
 
