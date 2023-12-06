@@ -37,6 +37,19 @@ const Index = () => {
   return (
     <Box sx={{ textAlign: "center" }}>
       <h1>～やることリスト～</h1>
+      <Box sx={{ mb: 5 }}>
+        <h2>～新規作成～</h2>
+        <TextField
+          sx={{ mr: 2 }}
+          variant="outlined"
+          onChange={(e) => onChangeTitle(e.target.value)}
+          value={title}
+          size="small"
+        />
+        <Button variant="contained" onClick={onSubmitTitle}>
+          新規作成
+        </Button>
+      </Box>
       {isGetTodosLoading ? (
         <p>Loading...</p>
       ) : (
@@ -78,19 +91,6 @@ const Index = () => {
           </Box>
         ))
       )}
-      <Box>
-        <h2>～新規作成～</h2>
-        <TextField
-          sx={{ mr: 2 }}
-          variant="outlined"
-          onChange={(e) => onChangeTitle(e.target.value)}
-          value={title}
-          size="small"
-        />
-        <Button variant="contained" onClick={onSubmitTitle}>
-          新規作成
-        </Button>
-      </Box>
     </Box>
   );
 };
